@@ -81,11 +81,13 @@ Ukuran dapat berubah mengikuti versi model dan runtime. Unduhan model berasal da
 ```bash
 git clone https://github.com/hendrazulpiadi/visionboost.git
 cd visionboost
-npm install
+npm install --legacy-peer-deps
 npm run dev
 ```
 
 Buka `http://localhost:5173`.
+
+> `--legacy-peer-deps` diperlukan karena `@imgly/background-removal` mendeklarasikan peer `onnxruntime-web@1.21.0`, sedangkan `@huggingface/transformers` memakai versi dev `1.21.0-dev.20250206-d981b153d3`. Tanpa flag ini, npm dapat gagal dengan `ERESOLVE`.
 
 > Gunakan `localhost`, bukan `127.0.0.1`. Vite secara default hanya listen di IPv6 (`::1`). Jika ingin mengakses lewat `127.0.0.1`, jalankan `npm run dev -- --host 127.0.0.1`.
 
@@ -176,6 +178,9 @@ Contoh untuk Netlify, simpan sebagai `public/_headers`:
 ```
 
 ## Troubleshooting
+
+**`npm install` gagal dengan `ERESOLVE`**
+- Gunakan `npm install --legacy-peer-deps`. Konflik peer berasal dari perbedaan versi `onnxruntime-web` antara `@imgly/background-removal` dan `@huggingface/transformers`.
 
 **Proses AI berhenti di "Mengunduh AI Engine..."**
 - Pastikan internet aktif saat pemakaian pertama.
